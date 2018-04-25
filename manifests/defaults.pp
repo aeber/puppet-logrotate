@@ -3,12 +3,13 @@
 class logrotate::defaults (
   $create_base_rules = $logrotate::create_base_rules,
   $rules             = $logrotate::params::base_rules,
-  $rule_default      = $logrotate::params::rule_default
+  $rule_default      = $logrotate::params::rule_default,
+  $manage_config     = $logrotate::manage_config
 ){
 
   assert_private()
 
-  if !defined( Logrotate::Conf[$::logrotate::params::config_file] ) {
+  if $manage_config and !defined( Logrotate::Conf[$::logrotate::params::config_file] ) {
     logrotate::conf{ $::logrotate::params::config_file:
       * => $::logrotate::params::conf_params,
     }
